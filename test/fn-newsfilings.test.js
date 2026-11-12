@@ -100,7 +100,7 @@ test("TOP merges every feed that answers, even when one is down", async () => {
   assert.equal(d.group, "ALL");
   assert.equal(d.items.length, 7);
   assert.deepEqual(d.feeds, ["CNBC", "MarketWatch"]);
-  assert.match(d.source, /no answer from WSJ, FT, Bloomberg, Nasdaq/);
+  assert.match(d.source, /no answer from WSJ, FT, Market News, Nasdaq/);
 });
 
 test("TOP falls back to Google News when the main feeds give almost nothing", async () => {

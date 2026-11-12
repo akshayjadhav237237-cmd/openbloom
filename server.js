@@ -24,7 +24,9 @@ import { relaunchForProxy, proxyNote } from "./lib/proxy.js";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(ROOT, "public");
-const CUSTOM = path.join(ROOT, "custom");
+const CUSTOM = process.env.VERCEL
+  ? path.join(os.tmpdir(), "openbloom-custom")
+  : path.join(ROOT, "custom");
 const VERSION = JSON.parse(
   fs.readFileSync(path.join(ROOT, "package.json"), "utf8"),
 ).version;
@@ -81,6 +83,12 @@ async function readBody(req, limit = 2e6) {
 // The server only answers to this machine's browser. Writes need a custom header, which a random
 // website can't add to a cross-site request, so other pages can't drive your terminal.
 function allowed(req) {
+  if (process.env.VERCEL) {
+    if (req.method !== "GET" && req.method !== "HEAD") {
+      if (req.headers["x-qt"] !== "1") return false;
+    }
+    return true;
+  }
   const host = (req.headers.host || "")
     .replace(/:\d+$/, "")
     .replace(/^\[|\]$/g, "");
@@ -133,16 +141,20 @@ const slug = (s) =>
 const customErrors = {};
 
 function listCustom() {
-  fs.mkdirSync(CUSTOM, { recursive: true });
-  return fs
-    .readdirSync(CUSTOM)
-    .filter((f) => f.endsWith(".js"))
-    .map((f) => ({
-      file: f,
-      id: `custom:${f.replace(/\.js$/, "")}`,
-      mtime: fs.statSync(path.join(CUSTOM, f)).mtimeMs,
-      error: customErrors[f] || null,
-    }));
+  try {
+    fs.mkdirSync(CUSTOM, { recursive: true });
+    return fs
+      .readdirSync(CUSTOM)
+      .filter((f) => f.endsWith(".js"))
+      .map((f) => ({
+        file: f,
+        id: `custom:${f.replace(/\.js$/, "")}`,
+        mtime: fs.statSync(path.join(CUSTOM, f)).mtimeMs,
+        error: customErrors[f] || null,
+      }));
+  } catch {
+    return [];
+  }
 }
 
 async function loadCustom(file) {
@@ -421,8 +433,43 @@ async function handle(req, res) {
   }
 }
 
+const staticFns = {
+  anr: () => import("./lib/fn/anr.js"),
+  auct: () => import("./lib/fn/auct.js"),
+  board: () => import("./lib/fn/board.js"),
+  bq: () => import("./lib/fn/bq.js"),
+  btmm: () => import("./lib/fn/btmm.js"),
+  btst: () => import("./lib/fn/btst.js"),
+  cbrt: () => import("./lib/fn/cbrt.js"),
+  cf: () => import("./lib/fn/cf.js"),
+  cot: () => import("./lib/fn/cot.js"),
+  cred: () => import("./lib/fn/cred.js"),
+  ct: () => import("./lib/fn/ct.js"),
+  des: () => import("./lib/fn/des.js"),
+  ds: () => import("./lib/fn/ds.js"),
+  dvd: () => import("./lib/fn/dvd.js"),
+  eco: () => import("./lib/fn/eco.js"),
+  ecst: () => import("./lib/fn/ecst.js"),
+  ee: () => import("./lib/fn/ee.js"),
+  "eq-comp": () => import("./lib/fn/eq-comp.js"),
+  "eq-math": () => import("./lib/fn/eq-math.js"),
+  "eq-port": () => import("./lib/fn/eq-port.js"),
+  eqs: () => import("./lib/fn/eqs.js"),
+  gc: () => import("./lib/fn/gc.js"),
+  gex: () => import("./lib/fn/gex.js"),
+  hds: () => import("./lib/fn/hds.js"),
+  insd: () => import("./lib/fn/insd.js"),
+  most: () => import("./lib/fn/most.js"),
+  omon: () => import("./lib/fn/omon.js"),
+  ovdv: () => import("./lib/fn/ovdv.js"),
+  surp: () => import("./lib/fn/surp.js"),
+  top: () => import("./lib/fn/top.js"),
+  wirp: () => import("./lib/fn/wirp.js"),
+};
+
 const fnCache = new Map();
 async function loadFn(name) {
+  if (staticFns[name]) return await staticFns[name]();
   if (!fnCache.has(name)) {
     const file = path.join(ROOT, "lib", "fn", `${name}.js`);
     fnCache.set(name, fs.existsSync(file) ? await import(pathToFileURL(file).href) : null);
@@ -492,5 +539,13 @@ if (isMain) {
   };
   process.on("SIGINT", bye);
   process.on("SIGTERM", bye);
+}
+
+export default async function handler(req, res) {
+  try {
+    await handle(req, res);
+  } catch (e) {
+    if (!res.headersSent) send(res, 500, { error: e.message });
+  }
 }
 

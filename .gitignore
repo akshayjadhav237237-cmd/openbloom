@@ -5,3 +5,5 @@ data/
 video/
 dist/
 research/
+
+.vercel
