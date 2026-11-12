@@ -1,0 +1,26 @@
+{
+  "name": "openbloom",
+  "version": "1.0.0",
+  "description": "OpenBloom: a free, open-source Bloomberg-style market terminal. No API keys, no subscriptions, no cost.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js --open",
+    "serve": "node server.js",
+    "test": "node scripts/test.js",
+    "test:live": "node --test test/live.test.js",
+    "doctor": "node scripts/doctor.js",
+    "compare": "node scripts/compare.js",
+    "smoke": "node scripts/smoke.js",
+    "check": "node scripts/check.js",
+    "launch": "node scripts/launch.js",
+    "stop": "node scripts/stop.js",
+    "setup": "node scripts/setup.js"
+  },
+  "license": "Apache-2.0"
+}
+
+
