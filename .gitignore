@@ -7,3 +7,6 @@ dist/
 research/
 
 .vercel
+.env
+.env.*
+!.env.example
