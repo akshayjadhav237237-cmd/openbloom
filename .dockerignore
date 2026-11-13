@@ -1,0 +1,11 @@
+node_modules/
+.git/
+.github/
+.vercel/
+*.tmp
+data/
+video/
+dist/
+test/
+.env*
+!docs/
