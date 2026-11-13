@@ -1,0 +1,231 @@
+/* public/css/ux-polish.css */
+/* Modern UX polish: responsive layouts, loading skeletons, error states, themes, tour modal, accessibility */
+
+/* 1. Mobile Responsiveness (stack panels under 768px) */
+@media (max-width: 768px) {
+  #grid, .grid {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+  }
+  .panel {
+    min-height: 380px !important;
+    height: 420px !important;
+    width: 100% !important;
+    margin-bottom: 8px !important;
+  }
+  header.top {
+    flex-wrap: wrap !important;
+    height: auto !important;
+    padding: 6px 8px !important;
+    gap: 8px !important;
+  }
+  .gcmd {
+    order: 3 !important;
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+  .clocks {
+    display: none !important;
+  }
+  .keys {
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* 2. Loading Skeletons */
+.skeleton-line {
+  background: linear-gradient(90deg, #181818 25%, #282828 50%, #181818 75%);
+  background-size: 200% 100%;
+  animation: ob-shimmer 1.6s infinite ease-in-out;
+  border-radius: 3px;
+  height: 14px;
+  margin: 6px 0;
+  display: block;
+}
+.skeleton-cell {
+  background: linear-gradient(90deg, #1c1c1c 25%, #2c2c2c 50%, #1c1c1c 75%);
+  background-size: 200% 100%;
+  animation: ob-shimmer 1.6s infinite ease-in-out;
+  border-radius: 2px;
+  height: 12px;
+  display: inline-block;
+}
+@keyframes ob-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* 3. Modern Error and State Containers */
+.ob-error-container {
+  background: #1f1212;
+  border: 1px solid #7f1d1d;
+  border-left: 4px solid #ef4444;
+  color: #fca5a5;
+  padding: 12px 14px;
+  margin: 10px 0;
+  font-size: 12px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ob-error-title {
+  font-weight: bold;
+  color: #f87171;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ob-empty-state {
+  padding: 30px 16px;
+  text-align: center;
+  color: #777;
+  font-size: 13px;
+}
+
+/* 4. Accessibility and Focus Outlines */
+:focus-visible {
+  outline: 2px solid #f59e0b !important;
+  outline-offset: 2px !important;
+}
+button:focus-visible, input:focus-visible, a:focus-visible {
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.4) !important;
+}
+
+/* 5. Light Theme Mode */
+body.light-theme {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+body.light-theme .top,
+body.light-theme .keys,
+body.light-theme .tape,
+body.light-theme .panel {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+body.light-theme .panel-header,
+body.light-theme .top {
+  border-bottom-color: #e2e8f0 !important;
+}
+body.light-theme input,
+body.light-theme select,
+body.light-theme textarea {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+body.light-theme table tr:hover {
+  background-color: #f1f5f9 !important;
+}
+body.light-theme table th {
+  background-color: #f8fafc !important;
+  border-bottom: 2px solid #cbd5e1 !important;
+  color: #475569 !important;
+}
+body.light-theme .amber {
+  color: #d97706 !important;
+}
+body.light-theme .dim {
+  color: #64748b !important;
+}
+body.light-theme .pos {
+  color: #16a34a !important;
+}
+body.light-theme .neg {
+  color: #dc2626 !important;
+}
+body.light-theme .suggest {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+body.light-theme .suggest-item:hover,
+body.light-theme .suggest-item.active {
+  background-color: #f1f5f9 !important;
+}
+
+/* 6. Onboarding Tour Modal */
+.tour-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+.tour-card {
+  background: #141414;
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+  color: #eee;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(245, 158, 11, 0.3);
+  font-family: inherit;
+}
+.tour-step-badge {
+  font-size: 11px;
+  font-weight: bold;
+  color: #f59e0b;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.tour-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.tour-body {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #bbb;
+  margin-bottom: 20px;
+}
+.tour-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tour-btn {
+  background: #f59e0b;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.tour-btn:hover {
+  background: #d97706;
+}
+.tour-skip-btn {
+  background: transparent;
+  color: #888;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+.tour-skip-btn:hover {
+  color: #ccc;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
