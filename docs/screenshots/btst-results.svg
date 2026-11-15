@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <rect width="800" height="450" fill="#0d0d0d" rx="8"/>
+  <rect x="0" y="0" width="800" height="32" fill="#161616" rx="8 8 0 0"/>
+  <circle cx="18" cy="16" r="5" fill="#ef4444"/>
+  <circle cx="34" cy="16" r="5" fill="#f59e0b"/>
+  <circle cx="50" cy="16" r="5" fill="#10b981"/>
+  <text x="70" y="20" fill="#f59e0b" font-family="monospace" font-size="12" font-weight="bold">OPENBLOOM // BTST QUANT BACKTESTING ENGINE &amp; EQUITY CURVE</text>
+  
+  <rect x="16" y="44" width="768" height="390" fill="#121212" stroke="#262626" rx="4"/>
+  <text x="32" y="70" fill="#f59e0b" font-family="monospace" font-size="13" font-weight="bold">AAPL US EQUITY // STRATEGY: RSI MEAN REVERSION (14, 30, 70) // PERIOD: 3Y (1D)</text>
+  <line x1="32" y1="84" x2="768" y2="84" stroke="#333"/>
+  
+  <!-- Metrics cards -->
+  <rect x="32" y="96" width="140" height="60" fill="#181818" stroke="#333" rx="3"/>
+  <text x="42" y="115" fill="#888" font-family="monospace" font-size="10">NET PROFIT</text>
+  <text x="42" y="142" fill="#10b981" font-family="monospace" font-size="18" font-weight="bold">+64.8%</text>
+
+  <rect x="182" y="96" width="130" height="60" fill="#181818" stroke="#333" rx="3"/>
+  <text x="192" y="115" fill="#888" font-family="monospace" font-size="10">SHARPE RATIO</text>
+  <text x="192" y="142" fill="#e5e5e5" font-family="monospace" font-size="18" font-weight="bold">1.84</text>
+
+  <rect x="322" y="96" width="130" height="60" fill="#181818" stroke="#333" rx="3"/>
+  <text x="332" y="115" fill="#888" font-family="monospace" font-size="10">SORTINO RATIO</text>
+  <text x="332" y="142" fill="#e5e5e5" font-family="monospace" font-size="18" font-weight="bold">2.41</text>
+
+  <rect x="462" y="96" width="140" height="60" fill="#181818" stroke="#333" rx="3"/>
+  <text x="472" y="115" fill="#888" font-family="monospace" font-size="10">MAX DRAWDOWN</text>
+  <text x="472" y="142" fill="#ef4444" font-family="monospace" font-size="18" font-weight="bold">-11.2%</text>
+
+  <rect x="612" y="96" width="156" height="60" fill="#181818" stroke="#333" rx="3"/>
+  <text x="622" y="115" fill="#888" font-family="monospace" font-size="10">WIN RATE / TRADES</text>
+  <text x="622" y="142" fill="#f59e0b" font-family="monospace" font-size="18" font-weight="bold">68.2% (44)</text>
+
+  <!-- Equity curve line chart -->
+  <rect x="32" y="170" width="736" height="190" fill="#0f0f0f" stroke="#222" rx="3"/>
+  <text x="44" y="190" fill="#737373" font-family="monospace" font-size="10">Cumulative Portfolio Return vs Benchmark</text>
+  <path d="M 44 320 Q 150 310, 250 280 T 450 240 T 600 210 T 750 185" fill="none" stroke="#10b981" stroke-width="2.5"/>
+  <path d="M 44 320 Q 150 315, 250 300 T 450 280 T 600 270 T 750 250" fill="none" stroke="#666" stroke-width="1.5" stroke-dasharray="3"/>
+
+  <!-- AI Explanation Bar -->
+  <rect x="32" y="375" width="736" height="45" fill="#1b170e" stroke="#523908" rx="3"/>
+  <text x="44" y="395" fill="#f59e0b" font-family="monospace" font-size="11" font-weight="bold">🧠 Quant AI Critique:</text>
+  <text x="200" y="395" fill="#ddd" font-family="monospace" font-size="11">Robust risk-adjusted returns (Sharpe 1.84); drawdown controlled under 12%. Low curve-fitting risk.</text>
+</svg>

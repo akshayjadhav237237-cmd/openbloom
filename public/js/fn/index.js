@@ -15,5 +15,40 @@ import workspace from "./workspace.js";
 import equity from "./equity.js";
 import playbooks from "./playbooks.js";
 
+// AI, workspace, alerts, and UX additions
+import ai from "./ai.js";
+import filingAi from "./filing-ai.js";
+import strategyAi from "./strategy-ai.js";
+import brief from "./brief.js";
+import workspaceCmds from "./workspace-cmds.js";
+import watchlistCmds from "./watchlist-cmds.js";
+import alertsCmds from "./alerts-cmds.js";
+import themeCmd from "./theme-cmd.js";
+
 export const FUNCS = {};
-for (const f of [...market, ...security, ...calendar, ...newsfilings, ...docsearch, ...rates, ...options, ...btst, ...coverage, ...workspace, ...equity, ...playbooks, ...apiHelp, ...meta]) FUNCS[f.id] = f;
+for (const f of [
+  ...market,
+  ...security,
+  ...calendar,
+  ...newsfilings,
+  ...docsearch,
+  ...rates,
+  ...options,
+  ...btst,
+  ...coverage,
+  ...workspace,
+  ...equity,
+  ...playbooks,
+  ...ai,
+  ...filingAi,
+  ...strategyAi,
+  ...brief,
+  ...workspaceCmds,
+  ...watchlistCmds,
+  ...alertsCmds,
+  ...themeCmd,
+  ...apiHelp,
+  ...meta,
+]) {
+  FUNCS[f.id] = f;
+}

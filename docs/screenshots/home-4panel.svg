@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <rect width="800" height="450" fill="#0d0d0d" rx="8"/>
+  <rect x="0" y="0" width="800" height="32" fill="#161616" rx="8 8 0 0"/>
+  <circle cx="18" cy="16" r="5" fill="#ef4444"/>
+  <circle cx="34" cy="16" r="5" fill="#f59e0b"/>
+  <circle cx="50" cy="16" r="5" fill="#10b981"/>
+  <text x="70" y="20" fill="#f59e0b" font-family="monospace" font-size="12" font-weight="bold">OPENBLOOM TERMINAL // 4-PANEL MULTI-ASSET WORKSPACE</text>
+  
+  <!-- Panel 1: WEI World Equity Indices -->
+  <rect x="12" y="44" width="382" height="190" fill="#121212" stroke="#262626" rx="4"/>
+  <text x="24" y="66" fill="#f59e0b" font-family="monospace" font-size="12" font-weight="bold">WEI // WORLD EQUITY INDICES</text>
+  <text x="24" y="90" fill="#e5e5e5" font-family="monospace" font-size="11">S&amp;P 500 (SPX)      5,983.25   +0.62%</text>
+  <text x="24" y="110" fill="#e5e5e5" font-family="monospace" font-size="11">NASDAQ 100 (NDX)   20,892.10   +0.84%</text>
+  <text x="24" y="130" fill="#e5e5e5" font-family="monospace" font-size="11">DOW JONES (INDU)   43,910.40   +0.31%</text>
+  <text x="24" y="150" fill="#e5e5e5" font-family="monospace" font-size="11">FTSE 100 (UKX)      8,071.19   -0.12%</text>
+  <text x="24" y="170" fill="#e5e5e5" font-family="monospace" font-size="11">NIKKEI 225 (NKY)   38,642.91   +0.45%</text>
+
+  <!-- Panel 2: TOP Market News -->
+  <rect x="406" y="44" width="382" height="190" fill="#121212" stroke="#262626" rx="4"/>
+  <text x="418" y="66" fill="#f59e0b" font-family="monospace" font-size="12" font-weight="bold">TOP // REAL-TIME FINANCIAL NEWS</text>
+  <text x="418" y="90" fill="#e5e5e5" font-family="monospace" font-size="11">14:32  Fed signals measured path as inflation eases</text>
+  <text x="418" y="110" fill="#e5e5e5" font-family="monospace" font-size="11">14:15  Nvidia Blackwell shipments accelerate into Q4</text>
+  <text x="418" y="130" fill="#e5e5e5" font-family="monospace" font-size="11">13:50  US Treasury yields stabilize after 10Y auction</text>
+  <text x="418" y="150" fill="#e5e5e5" font-family="monospace" font-size="11">13:20  Crude drops on rising inventories and demand</text>
+  <text x="418" y="170" fill="#e5e5e5" font-family="monospace" font-size="11">12:45  ECB holds benchmark deposit rates unchanged</text>
+
+  <!-- Panel 3: SPX Chart GP -->
+  <rect x="12" y="246" width="382" height="190" fill="#121212" stroke="#262626" rx="4"/>
+  <text x="24" y="268" fill="#f59e0b" font-family="monospace" font-size="12" font-weight="bold">SPX INDEX GP // CANDLESTICK CHART 1D</text>
+  <path d="M 30 380 L 70 370 L 110 350 L 150 360 L 190 330 L 230 310 L 270 320 L 310 295 L 350 280 L 380 270" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  <text x="24" y="415" fill="#737373" font-family="monospace" font-size="10">2026-09        2026-10        2026-11        LIVE</text>
+
+  <!-- Panel 4: ECO Economic Calendar -->
+  <rect x="406" y="246" width="382" height="190" fill="#121212" stroke="#262626" rx="4"/>
+  <text x="418" y="268" fill="#f59e0b" font-family="monospace" font-size="12" font-weight="bold">ECO // ECONOMIC CALENDAR &amp; RELEASES</text>
+  <text x="418" y="292" fill="#e5e5e5" font-family="monospace" font-size="11">08:30 USD  CPI Core (YoY)         3.3%   (Exp 3.3%)</text>
+  <text x="418" y="312" fill="#e5e5e5" font-family="monospace" font-size="11">08:30 USD  Initial Jobless Claims 217K   (Exp 223K)</text>
+  <text x="418" y="332" fill="#e5e5e5" font-family="monospace" font-size="11">10:00 USD  UoM Consumer Sentiment 71.8   (Exp 71.0)</text>
+  <text x="418" y="352" fill="#e5e5e5" font-family="monospace" font-size="11">14:00 USD  FOMC Meeting Minutes   Released</text>
+  <text x="418" y="372" fill="#e5e5e5" font-family="monospace" font-size="11">18:00 EUR  ECB President Speech   Scheduled</text>
+</svg>

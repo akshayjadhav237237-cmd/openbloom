@@ -4,5 +4,8 @@
       "includeFiles": "public/**,lib/**,package.json",
       "maxDuration": 15
     }
-  }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/server.js" }
+  ]
 }

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <rect width="800" height="450" fill="#0d0d0d" rx="8"/>
+  <rect x="0" y="0" width="800" height="32" fill="#161616" rx="8 8 0 0"/>
+  <circle cx="18" cy="16" r="5" fill="#ef4444"/>
+  <circle cx="34" cy="16" r="5" fill="#f59e0b"/>
+  <circle cx="50" cy="16" r="5" fill="#10b981"/>
+  <text x="70" y="20" fill="#f59e0b" font-family="monospace" font-size="12" font-weight="bold">OPENBLOOM // NVDA US EQUITY OMON - OPTION MATRIX &amp; CHAIN</text>
+  
+  <rect x="16" y="44" width="768" height="390" fill="#121212" stroke="#262626" rx="4"/>
+  <text x="32" y="70" fill="#f59e0b" font-family="monospace" font-size="13" font-weight="bold">NVDA US EQUITY // EXPIRY: 2026-11-20 (DTE: 5) // SPOT: $148.50 // IV ATM: 48.2%</text>
+  
+  <line x1="32" y1="84" x2="768" y2="84" stroke="#333"/>
+  
+  <text x="32" y="105" fill="#737373" font-family="monospace" font-size="11">CALL VOL    CALL OI    BID      ASK    STRIKE    BID      ASK    PUT OI    PUT VOL</text>
+  <line x1="32" y1="114" x2="768" y2="114" stroke="#222"/>
+
+  <text x="32" y="140" fill="#10b981" font-family="monospace" font-size="11"> 28,450     45,100    10.20    10.45    140.00    1.75     1.85   12,300     4,120</text>
+  <text x="32" y="170" fill="#10b981" font-family="monospace" font-size="11"> 41,200     62,400     6.80     7.00    145.00    3.30     3.45   24,100     9,850</text>
+  <rect x="30" y="184" width="738" height="26" fill="#241805" rx="2"/>
+  <text x="32" y="202" fill="#f59e0b" font-family="monospace" font-size="11" font-weight="bold"> 89,500    112,000     4.10     4.25    150.00    5.60     5.80   68,400    42,100  [ATM]</text>
+  <text x="32" y="234" fill="#ef4444" font-family="monospace" font-size="11"> 52,100     78,900     2.25     2.35    155.00    8.80     9.05   31,200    11,200</text>
+  <text x="32" y="264" fill="#ef4444" font-family="monospace" font-size="11"> 34,900     51,200     1.15     1.25    160.00   12.70    13.00   18,900     5,400</text>
+  
+  <text x="32" y="320" fill="#a3a3a3" font-family="monospace" font-size="11">Put/Call Volume Ratio: 0.68  |  Total Call OI: 890,410  |  Total Put OI: 605,230</text>
+  <text x="32" y="345" fill="#a3a3a3" font-family="monospace" font-size="11">Max Pain: $145.00  |  Expected Move: ±$6.40 (±4.31%)</text>
+  
+  <rect x="32" y="380" width="180" height="30" fill="#1f1f1f" stroke="#333" rx="3"/>
+  <text x="44" y="400" fill="#f59e0b" font-family="monospace" font-size="11">EXPLAIN THIS SCREEN [AI]</text>
+</svg>

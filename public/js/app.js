@@ -12,6 +12,9 @@ import {
   linkSources,
   delayTag,
 } from "./ui.js";
+import { initTheme } from "./fn/theme-cmd.js";
+import { initTour } from "./tour.js";
+import { pushHistory } from "./autocomplete.js";
 
 const $ = (s, el = document) => el.querySelector(s);
 const grid = $("#grid");
@@ -297,6 +300,7 @@ $("#globalCmd").onsubmit = (e) => {
   hideSuggest();
   const v = gInput.value.trim();
   if (!v) return;
+  pushHistory(v);
   const n = /^(LAYOUT|GRID)\s+([124])$/i.exec(v);
   if (n) setLayout(+n[2]);
   else panels[state.active].run(v);
@@ -469,5 +473,7 @@ setLayout(state.layout);
 setActive(state.active);
 panels.forEach((p, i) => p.run(state.panels[i] || DEFAULT[i]));
 gInput.focus();
+initTheme();
+initTour();
 window.amber = { panels, run: (c, i = state.active) => panels[i].run(c) };
 

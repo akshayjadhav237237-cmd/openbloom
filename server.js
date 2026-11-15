@@ -21,6 +21,12 @@ import { yahooQuotes } from "./lib/fn/board.js";
 import { registerIndicator } from "./public/lib/indicators.js";
 import { conditionFn } from "./public/lib/backtest.js";
 import { relaunchForProxy, proxyNote } from "./lib/proxy.js";
+import { middleware as rateLimiter } from "./lib/ratelimit.js";
+import { wrap as cacheWrap } from "./lib/cache.js";
+import aiRoute from "./lib/routes/ai.js";
+import filingAiRoute from "./lib/routes/filing-ai.js";
+import strategyAiRoute from "./lib/routes/strategy-ai.js";
+import briefRoute from "./lib/routes/brief.js";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(ROOT, "public");
@@ -48,11 +54,35 @@ const MIME = {
 // ---------- helpers ----------
 const httpError = (status, message) => Object.assign(new Error(message), { status });
 
+const generalLimit = rateLimiter("general", 60);
+const aiLimit = rateLimiter("ai", 10);
+
+const SECURITY_HEADERS = {
+  "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https: ws: wss:;",
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+};
+
+function isSafeUrl(targetUrl) {
+  try {
+    const u = new URL(targetUrl);
+    if (!["http:", "https:"].includes(u.protocol)) return false;
+    const h = u.hostname.toLowerCase();
+    if (h === "localhost" || h === "127.0.0.1" || h === "::1" || h === "169.254.169.254") return false;
+    if (/^10\./.test(h) || /^192\.168\./.test(h) || /^172\.(1[6-9]|2\d|3[01])\./.test(h)) return false;
+    if (h.endsWith(".internal") || h.endsWith(".local")) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function send(res, status, body, headers = {}) {
   const isStr = typeof body === "string" || Buffer.isBuffer(body);
   res.writeHead(status, {
     "Content-Type": isStr ? "text/plain; charset=utf-8" : "application/json",
     "Cache-Control": "no-store",
+    ...SECURITY_HEADERS,
     ...headers,
   });
   res.end(isStr ? body : JSON.stringify(body));
@@ -83,7 +113,7 @@ async function readBody(req, limit = 2e6) {
 // The server only answers to this machine's browser. Writes need a custom header, which a random
 // website can't add to a cross-site request, so other pages can't drive your terminal.
 function allowed(req) {
-  if (process.env.VERCEL) {
+  if (process.env.VERCEL || process.env.K_SERVICE || process.env.CLOUD_RUN) {
     if (req.method !== "GET" && req.method !== "HEAD") {
       if (req.headers["x-qt"] !== "1") return false;
     }
@@ -126,6 +156,7 @@ function serveStatic(res, baseDir, rel) {
       "Cache-Control": rel.startsWith("vendor/")
         ? "public, max-age=86400"
         : "no-cache",
+      ...SECURITY_HEADERS,
     });
     fs.createReadStream(file).pipe(res);
   });
@@ -200,12 +231,6 @@ async function mapLimit(items, n, fn) {
 
 // ---------- routes ----------
 async function handle(req, res) {
-  if (!allowed(req))
-    return send(
-      res,
-      403,
-      "Forbidden: OpenBloom only answers to this computer.",
-    );
   const url = new URL(req.url, "http://localhost");
   let p;
   try {
@@ -213,6 +238,25 @@ async function handle(req, res) {
   } catch {
     return send(res, 400, "Bad URL");
   }
+
+  // Cloud Run / k8s health probe (unauthenticated)
+  if (p === "/healthz") {
+    return send(res, 200, {
+      status: "ok",
+      app: "openbloom",
+      version: VERSION,
+      uptime: process.uptime(),
+      time: new Date().toISOString(),
+    });
+  }
+
+  if (!allowed(req))
+    return send(
+      res,
+      403,
+      "Forbidden: OpenBloom only answers to this computer.",
+    );
+
   const q = Object.fromEntries(url.searchParams);
 
   if (!p.startsWith("/api/")) {
@@ -222,7 +266,20 @@ async function handle(req, res) {
     return serveStatic(res, PUBLIC, p.slice(1));
   }
 
+  // Rate Limiting
+  if (p.startsWith("/api/ai") || p === "/api/filing-ai" || p === "/api/strategy-ai" || p === "/api/brief") {
+    if (!aiLimit(req, res)) return;
+  } else if (p !== "/api/health" && p !== "/api/events") {
+    if (!generalLimit(req, res)) return;
+  }
+
   try {
+    // Gemini AI and Agent routes
+    if (p === "/api/ai") return await aiRoute(req, res, { send, readBody });
+    if (p === "/api/filing-ai") return await filingAiRoute(req, res, { send, readBody });
+    if (p === "/api/strategy-ai") return await strategyAiRoute(req, res, { send, readBody });
+    if (p === "/api/brief") return await briefRoute(req, res, { send, readBody });
+
     if (p === "/api/health") {
       return send(res, 200, {
         ok: true,
@@ -341,6 +398,8 @@ async function handle(req, res) {
       const { url: hook } = await readBody(req);
       if (!/^https?:\/\/[^\s]+$/i.test(String(hook || "")))
         throw httpError(400, "Webhook must be an http(s) URL");
+      if (!isSafeUrl(hook))
+        throw httpError(400, "Webhook destination is not allowed");
       const r = await fetch(hook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -495,18 +554,37 @@ function openBrowser(url) {
 }
 
 export function start(port = START_PORT, tries = 20) {
+  const host = process.env.K_SERVICE || process.env.CLOUD_RUN ? "0.0.0.0" : HOST;
   return new Promise((resolve, reject) => {
     const server = http.createServer((req, res) => {
-      handle(req, res).catch((e) => {
-        if (!res.headersSent) send(res, 500, { error: e.message });
-      });
+      const startTime = Date.now();
+      handle(req, res)
+        .catch((e) => {
+          if (!res.headersSent) send(res, 500, { error: e.message });
+        })
+        .finally(() => {
+          if (process.env.K_SERVICE || process.env.CLOUD_RUN || process.env.NODE_ENV === "production") {
+            try {
+              console.log(
+                JSON.stringify({
+                  severity: res.statusCode >= 500 ? "ERROR" : res.statusCode >= 400 ? "WARNING" : "INFO",
+                  time: new Date().toISOString(),
+                  method: req.method,
+                  url: req.url,
+                  status: res.statusCode,
+                  latencyMs: Date.now() - startTime,
+                })
+              );
+            } catch {}
+          }
+        });
     });
     server.once("error", (e) => {
       if (e.code === "EADDRINUSE" && tries > 0)
         resolve(start(port + 1, tries - 1));
       else reject(e);
     });
-    server.listen(port, HOST, () => resolve({ server, port }));
+    server.listen(port, host, () => resolve({ server, port }));
   });
 }
 

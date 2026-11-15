@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <rect width="800" height="450" fill="#0d0d0d" rx="8"/>
+  <rect x="0" y="0" width="800" height="32" fill="#161616" rx="8 8 0 0"/>
+  <circle cx="18" cy="16" r="5" fill="#ef4444"/>
+  <circle cx="34" cy="16" r="5" fill="#f59e0b"/>
+  <circle cx="50" cy="16" r="5" fill="#10b981"/>
+  <text x="70" y="20" fill="#f59e0b" font-family="monospace" font-size="12" font-weight="bold">OPENBLOOM // SPY US EQUITY GEX - GAMMA EXPOSURE PROFILE</text>
+  
+  <rect x="16" y="44" width="768" height="390" fill="#121212" stroke="#262626" rx="4"/>
+  <text x="32" y="70" fill="#f59e0b" font-family="monospace" font-size="13" font-weight="bold">SPY US EQUITY // NET GAMMA: +$2.84B / 1% (LONG GAMMA REGIME - VOLATILITY DAMPENING)</text>
+  <text x="32" y="90" fill="#a3a3a3" font-family="monospace" font-size="11">Zero Gamma Level: $588.50  |  Call Wall: $600.00  |  Put Wall: $585.00  |  Spot: $596.20</text>
+  
+  <!-- Zero line -->
+  <line x1="32" y1="230" x2="768" y2="230" stroke="#444" stroke-dasharray="4"/>
+  <text x="710" y="225" fill="#737373" font-family="monospace" font-size="10">Zero Line</text>
+
+  <!-- Bars for Strikes -->
+  <!-- 580 Put -->
+  <rect x="100" y="230" width="40" height="70" fill="#ef4444" opacity="0.8"/>
+  <text x="105" y="315" fill="#a3a3a3" font-family="monospace" font-size="10">$580</text>
+  <!-- 585 Put Wall -->
+  <rect x="180" y="230" width="40" height="110" fill="#ef4444" opacity="0.9"/>
+  <text x="185" y="355" fill="#f59e0b" font-family="monospace" font-size="10">$585 (PW)</text>
+  <!-- 590 Small Call -->
+  <rect x="260" y="190" width="40" height="40" fill="#10b981" opacity="0.7"/>
+  <text x="265" y="245" fill="#a3a3a3" font-family="monospace" font-size="10">$590</text>
+  <!-- 595 Medium Call -->
+  <rect x="340" y="140" width="40" height="90" fill="#10b981" opacity="0.8"/>
+  <text x="345" y="245" fill="#a3a3a3" font-family="monospace" font-size="10">$595</text>
+  <!-- Spot Marker -->
+  <line x1="365" y1="90" x2="365" y2="380" stroke="#f59e0b" stroke-width="2"/>
+  <text x="375" y="110" fill="#f59e0b" font-family="monospace" font-size="11" font-weight="bold">SPOT $596.20</text>
+  <!-- 600 Call Wall -->
+  <rect x="420" y="80" width="40" height="150" fill="#10b981" opacity="0.9"/>
+  <text x="425" y="245" fill="#f59e0b" font-family="monospace" font-size="10">$600 (CW)</text>
+  <!-- 605 -->
+  <rect x="500" y="170" width="40" height="60" fill="#10b981" opacity="0.7"/>
+  <text x="505" y="245" fill="#a3a3a3" font-family="monospace" font-size="10">$605</text>
+</svg>
